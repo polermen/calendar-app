@@ -38,18 +38,18 @@ public class AuthController : ControllerBase
             {
                 var message = new UserRegisteredMessage
                 {
-                    UserId = response.UserId,
-                    Username = response.Username,
+                    UserId = response.User.UserId,
+                    Username = response.User.Username,
                     Email = request.Email,
                     RegisteredAt = DateTime.UtcNow
                 };
 
                 _messagePublisher.PublishMessage("user-registered", message);
-                _logger.LogInformation("User registered message published for {Username}", response.Username);
+                _logger.LogInformation("User registered message published for {Username}", response.User.Username);
             }
             catch (Exception mqEx)
             {
-                _logger.LogError(mqEx, "Failed to publish user registered message for {Username}", response.Username);
+                _logger.LogError(mqEx, "Failed to publish user registered message for {Username}", response.User.Username);
                 // Don't fail the registration if message publishing fails
             }
 
