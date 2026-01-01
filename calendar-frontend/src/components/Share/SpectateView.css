@@ -1,0 +1,299 @@
+.spectate-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  padding: 40px 30px;
+}
+
+.spectate-header {
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+
+.spectate-header h2 {
+  margin: 0 0 12px 0;
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.spectate-subtitle {
+  margin: 0;
+  font-size: 16px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.spectate-loading {
+  max-width: 1200px;
+  margin: 60px auto;
+  text-align: center;
+  padding: 60px 30px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+}
+
+.spectate-loading-spinner {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 20px;
+  border: 4px solid #e2e8f0;
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: spectateSpinnerRotate 0.8s linear infinite;
+}
+
+@keyframes spectateSpinnerRotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spectate-loading p {
+  margin: 0;
+  color: #64748b;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.spectate-error {
+  max-width: 1200px;
+  margin: 60px auto;
+  text-align: center;
+  padding: 60px 30px;
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  border-radius: 16px;
+  border: 2px solid #fca5a5;
+}
+
+.spectate-error p {
+  margin: 0 0 20px 0;
+  color: #991b1b;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.spectate-btn-retry {
+  padding: 12px 32px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.spectate-btn-retry:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.spectate-empty-state {
+  max-width: 600px;
+  margin: 60px auto;
+  text-align: center;
+  padding: 80px 40px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 2px dashed #cbd5e1;
+}
+
+.spectate-empty-icon {
+  font-size: 64px;
+  margin-bottom: 24px;
+  opacity: 0.5;
+}
+
+.spectate-empty-state h3 {
+  margin: 0 0 12px 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  letter-spacing: -0.3px;
+}
+
+.spectate-empty-state p {
+  margin: 0 0 8px 0;
+  color: #64748b;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.spectate-empty-hint {
+  font-size: 14px;
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+.spectate-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.spectate-card {
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.spectate-card:hover {
+  border-color: #6366f1;
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+  transform: translateY(-4px);
+}
+
+.spectate-card-header {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  padding: 32px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spectate-card-icon {
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  backdrop-filter: blur(10px);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.spectate-card-body {
+  padding: 24px;
+  text-align: center;
+}
+
+.spectate-card-username {
+  margin: 0 0 8px 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  letter-spacing: -0.3px;
+}
+
+.spectate-card-email {
+  margin: 0;
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.spectate-card-footer {
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-top: 2px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.spectate-card:hover .spectate-card-footer {
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+}
+
+.spectate-view-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #6366f1;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.spectate-arrow {
+  font-size: 20px;
+  color: #6366f1;
+  font-weight: 700;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.spectate-card:hover .spectate-arrow {
+  transform: translateX(4px);
+}
+
+@media (max-width: 900px) {
+  .spectate-container {
+    padding: 30px 20px;
+  }
+
+  .spectate-header {
+    margin-bottom: 30px;
+  }
+
+  .spectate-header h2 {
+    font-size: 28px;
+  }
+
+  .spectate-subtitle {
+    font-size: 14px;
+  }
+
+  .spectate-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .spectate-container {
+    padding: 20px 15px;
+  }
+
+  .spectate-header h2 {
+    font-size: 24px;
+  }
+
+  .spectate-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .spectate-empty-state {
+    padding: 60px 30px;
+  }
+
+  .spectate-empty-icon {
+    font-size: 48px;
+  }
+
+  .spectate-card-header {
+    padding: 24px;
+  }
+
+  .spectate-card-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+  }
+
+  .spectate-card-username {
+    font-size: 18px;
+  }
+
+  .spectate-card-email {
+    font-size: 13px;
+  }
+}

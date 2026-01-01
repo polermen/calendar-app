@@ -1,0 +1,40 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.log
+*.vs/
+.vs/
+
+# Environment variables
+.env
+*.env.local
+*.env.production
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# Frontend
+node_modules/
+dist/
+build/
+.vite/
+*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Sensitive files
+appsettings.Development.json
+launchSettings.json

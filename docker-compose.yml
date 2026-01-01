@@ -1,0 +1,121 @@
+version: '3.8'
+
+services:
+  # SQL Server Database
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: calendarapp-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=YourStrong@Password123
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    networks:
+      - calendarapp-network
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourStrong@Password123 -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  # RabbitMQ Message Broker
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: calendarapp-rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "5672:5672"   # AMQP protocol port
+      - "15672:15672" # Management UI port
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - calendarapp-network
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  # Calendar API
+  api:
+    build:
+      context: .
+      dockerfile: CalendarApp.API/Dockerfile
+    container_name: calendarapp-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=CalendarAppDB;User Id=sa;Password=YourStrong@Password123;TrustServerCertificate=True;MultipleActiveResultSets=true
+      - RabbitMQ__Host=rabbitmq
+      - RabbitMQ__Port=5672
+      - RabbitMQ__Username=guest
+      - RabbitMQ__Password=guest
+      - Jwt__SecretKey=YourSuperSecretKeyForJWTTokenGeneration123456789
+      - Jwt__Issuer=CalendarApp.API
+      - Jwt__Audience=CalendarApp.Client
+      - Jwt__ExpiryMinutes=15
+      - Jwt__RefreshTokenExpiryDays=7
+    ports:
+      - "5000:5000"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - calendarapp-network
+    restart: on-failure
+
+  # Message Consumer Worker
+  consumer:
+    build:
+      context: .
+      dockerfile: CalendarApp.MessageConsumer/Dockerfile
+    container_name: calendarapp-consumer
+    environment:
+      - RabbitMQ__Host=rabbitmq
+      - RabbitMQ__Port=5672
+      - RabbitMQ__Username=guest
+      - RabbitMQ__Password=guest
+      - Email__SmtpHost=smtp.gmail.com
+      - Email__SmtpPort=587
+      - Email__SmtpUsername=${SMTP_USERNAME}
+      - Email__SmtpPassword=${SMTP_PASSWORD}
+      - Email__FromEmail=${SMTP_FROM_EMAIL}
+      - Email__FromName=Calendar App
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - calendarapp-network
+    restart: on-failure
+
+  # Frontend React Application
+  frontend:
+    build:
+      context: ./calendar-frontend
+      dockerfile: Dockerfile
+    container_name: calendarapp-frontend
+    environment:
+      - VITE_API_BASE_URL=http://localhost:5000/api
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+    networks:
+      - calendarapp-network
+
+networks:
+  calendarapp-network:
+    driver: bridge
+
+volumes:
+  sqlserver-data:
+  rabbitmq-data:
