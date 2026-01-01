@@ -29,13 +29,21 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     }
 
     // Use PostgreSQL if connection string starts with postgres/postgresql
-    if (connectionString.StartsWith("postgres://") || connectionString.StartsWith("postgresql://"))
+    if (connectionString.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase) ||
+        connectionString.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
     {
         // Convert Railway's DATABASE_URL format if needed
-        if (connectionString.StartsWith("postgres://"))
+        if (connectionString.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase))
         {
-            connectionString = connectionString.Replace("postgres://", "postgresql://");
+            connectionString = "postgresql://" + connectionString.Substring("postgres://".Length);
         }
+
+        // Railway PostgreSQL URLs may have SSL mode that needs adjustment
+        if (!connectionString.Contains("sslmode=", StringComparison.OrdinalIgnoreCase))
+        {
+            connectionString += connectionString.Contains("?") ? "&sslmode=Require" : "?sslmode=Require";
+        }
+
         options.UseNpgsql(connectionString);
     }
     else
