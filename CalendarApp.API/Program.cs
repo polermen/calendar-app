@@ -30,6 +30,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     Console.WriteLine($"[DEBUG] Connection string length: {connectionString?.Length ?? 0}");
     Console.WriteLine($"[DEBUG] Connection string starts with: {connectionString?.Substring(0, Math.Min(20, connectionString?.Length ?? 0)) ?? "NULL"}...");
 
+    // Print full connection string with password obscured
+    if (!string.IsNullOrEmpty(connectionString))
+    {
+        var obscured = System.Text.RegularExpressions.Regex.Replace(
+            connectionString,
+            @"://([^:]+):([^@]+)@",
+            "://$1:****@"
+        );
+        Console.WriteLine($"[DEBUG] Full connection string (obscured): {obscured}");
+    }
+
     if (string.IsNullOrEmpty(connectionString))
     {
         throw new InvalidOperationException("Database connection string is not configured");
