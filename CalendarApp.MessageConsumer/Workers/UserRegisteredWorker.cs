@@ -34,6 +34,7 @@ public class UserRegisteredWorker : BackgroundService
             var rabbitMQPort = int.Parse(_configuration["RabbitMQ:Port"] ?? "5672");
             var rabbitMQUsername = _configuration["RabbitMQ:Username"] ?? "guest";
             var rabbitMQPassword = _configuration["RabbitMQ:Password"] ?? "guest";
+            var rabbitMQVirtualHost = _configuration["RabbitMQ:VirtualHost"] ?? "/";
 
             var factory = new ConnectionFactory
             {
@@ -41,6 +42,7 @@ public class UserRegisteredWorker : BackgroundService
                 Port = rabbitMQPort,
                 UserName = rabbitMQUsername,
                 Password = rabbitMQPassword,
+                VirtualHost = rabbitMQVirtualHost,
                 AutomaticRecoveryEnabled = true,
                 NetworkRecoveryInterval = TimeSpan.FromSeconds(10),
                 Ssl = new SslOption

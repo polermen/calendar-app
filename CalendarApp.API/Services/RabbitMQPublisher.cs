@@ -20,6 +20,7 @@ public class RabbitMQPublisher : IMessagePublisher, IDisposable
             var rabbitMQPort = int.Parse(configuration["RabbitMQ:Port"] ?? "5672");
             var rabbitMQUsername = configuration["RabbitMQ:Username"] ?? "guest";
             var rabbitMQPassword = configuration["RabbitMQ:Password"] ?? "guest";
+            var rabbitMQVirtualHost = configuration["RabbitMQ:VirtualHost"] ?? "/";
 
             var factory = new ConnectionFactory
             {
@@ -27,6 +28,7 @@ public class RabbitMQPublisher : IMessagePublisher, IDisposable
                 Port = rabbitMQPort,
                 UserName = rabbitMQUsername,
                 Password = rabbitMQPassword,
+                VirtualHost = rabbitMQVirtualHost,
                 AutomaticRecoveryEnabled = true,
                 NetworkRecoveryInterval = TimeSpan.FromSeconds(10),
                 Ssl = new SslOption
