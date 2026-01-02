@@ -28,4 +28,4 @@ COPY --from=build /app/dist ./dist
 EXPOSE 3000
 
 # Serve the application on Railway's dynamic PORT
-CMD sh -c "serve -s dist -l ${PORT:-3000}"
+CMD sh -c "serve -s dist -p ${PORT:-3000}"
