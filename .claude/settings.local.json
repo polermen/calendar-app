@@ -30,7 +30,14 @@
       "Bash(sqlcmd:*)",
       "Bash(tasklist:*)",
       "Bash(git init:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git config:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(dotnet tool uninstall:*)",
+      "Bash(dotnet tool install:*)"
     ]
   }
 }

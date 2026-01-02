@@ -54,7 +54,7 @@ public class ApplicationDbContext : DbContext
 
             entity.HasCheckConstraint(
                 "CHK_Task_Scope",
-                "[Scope] IN ('Day', 'Week', 'Month', 'Year')"
+                "\"Scope\" IN ('Day', 'Week', 'Month', 'Year')"
             );
         });
 
@@ -75,7 +75,7 @@ public class ApplicationDbContext : DbContext
 
             entity.HasCheckConstraint(
                 "CHK_TodoList_Scope",
-                "[Scope] IN ('Day', 'Week', 'Month', 'Year')"
+                "\"Scope\" IN ('Day', 'Week', 'Month', 'Year')"
             );
         });
 
