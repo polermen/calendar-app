@@ -26,6 +26,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
         ?? builder.Configuration.GetConnectionString("DefaultConnection");
 
+    Console.WriteLine($"[DEBUG] Connection string source: {(Environment.GetEnvironmentVariable("DATABASE_URL") != null ? "DATABASE_URL env var" : "ConnectionStrings:DefaultConnection")}");
+    Console.WriteLine($"[DEBUG] Connection string length: {connectionString?.Length ?? 0}");
+    Console.WriteLine($"[DEBUG] Connection string starts with: {connectionString?.Substring(0, Math.Min(20, connectionString?.Length ?? 0)) ?? "NULL"}...");
+
     if (string.IsNullOrEmpty(connectionString))
     {
         throw new InvalidOperationException("Database connection string is not configured");
@@ -38,14 +42,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         // Convert Railway's postgres:// to postgresql://
         if (connectionString.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase))
         {
+            Console.WriteLine("[DEBUG] Converting postgres:// to postgresql://");
             connectionString = "postgresql://" + connectionString.Substring("postgres://".Length);
         }
 
+        Console.WriteLine("[DEBUG] Using PostgreSQL with Npgsql");
         options.UseNpgsql(connectionString);
     }
     else
     {
         // Use SQL Server for local development or Azure SQL
+        Console.WriteLine("[DEBUG] Using SQL Server");
         options.UseSqlServer(connectionString);
     }
 });
