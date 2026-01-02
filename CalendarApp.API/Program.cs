@@ -165,6 +165,16 @@ if (app.Environment.IsProduction())
     try
     {
         logger.LogInformation("Running database migrations...");
+
+        // Ensure database exists
+        logger.LogInformation("Ensuring database exists...");
+        dbContext.Database.EnsureCreated();
+
+        // Apply pending migrations
+        logger.LogInformation("Applying pending migrations...");
+        var pendingMigrations = dbContext.Database.GetPendingMigrations().ToList();
+        logger.LogInformation($"Found {pendingMigrations.Count} pending migrations");
+
         dbContext.Database.Migrate();
         logger.LogInformation("Database migrations completed successfully");
     }
