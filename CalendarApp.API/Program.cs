@@ -26,6 +26,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
         ?? builder.Configuration.GetConnectionString("DefaultConnection");
 
+    // Trim any whitespace that might cause parsing issues
+    connectionString = connectionString?.Trim();
+
     Console.WriteLine($"[DEBUG] Connection string source: {(Environment.GetEnvironmentVariable("DATABASE_URL") != null ? "DATABASE_URL env var" : "ConnectionStrings:DefaultConnection")}");
     Console.WriteLine($"[DEBUG] Connection string length: {connectionString?.Length ?? 0}");
     Console.WriteLine($"[DEBUG] Connection string starts with: {connectionString?.Substring(0, Math.Min(20, connectionString?.Length ?? 0)) ?? "NULL"}...");
@@ -39,6 +42,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
             "://$1:****@"
         );
         Console.WriteLine($"[DEBUG] Full connection string (obscured): {obscured}");
+
+        // Check for hidden characters
+        Console.WriteLine($"[DEBUG] First char code: {(int)connectionString[0]}");
+        Console.WriteLine($"[DEBUG] Has whitespace at start: {char.IsWhiteSpace(connectionString[0])}");
     }
 
     if (string.IsNullOrEmpty(connectionString))
