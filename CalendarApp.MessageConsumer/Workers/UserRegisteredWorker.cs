@@ -45,8 +45,8 @@ public class UserRegisteredWorker : BackgroundService
                 NetworkRecoveryInterval = TimeSpan.FromSeconds(10)
             };
 
-            _connection = await factory.CreateConnectionAsync(cancellationToken);
-            _channel = await _connection.CreateChannelAsync(cancellationToken);
+            _connection = await factory.CreateConnectionAsync();
+            _channel = await _connection.CreateChannelAsync();
 
             await _channel.QueueDeclareAsync(
                 queue: QueueName,
