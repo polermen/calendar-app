@@ -28,7 +28,12 @@ public class RabbitMQPublisher : IMessagePublisher, IDisposable
                 UserName = rabbitMQUsername,
                 Password = rabbitMQPassword,
                 AutomaticRecoveryEnabled = true,
-                NetworkRecoveryInterval = TimeSpan.FromSeconds(10)
+                NetworkRecoveryInterval = TimeSpan.FromSeconds(10),
+                Ssl = new SslOption
+                {
+                    Enabled = true,
+                    ServerName = rabbitMQHost
+                }
             };
 
             _connection = factory.CreateConnectionAsync().GetAwaiter().GetResult();

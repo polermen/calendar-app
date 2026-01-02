@@ -85,7 +85,7 @@ ASPNETCORE_URLS = http://0.0.0.0:$PORT
 
 **API URL** (after deployment):
 ```
-https://________________________________
+https://calendar-app-production-9144.up.railway.app
 ```
 
 ### C. Consumer Service
