@@ -24,8 +24,8 @@ RUN npm install -g serve
 # Copy built files from build stage
 COPY --from=build /app/dist ./dist
 
-# Expose port
-EXPOSE 5173
+# Expose port (Railway will assign dynamically)
+EXPOSE 3000
 
-# Serve the application
-CMD ["serve", "-s", "dist", "-l", "5173"]
+# Serve the application on Railway's dynamic PORT
+CMD ["sh", "-c", "serve -s dist -l ${PORT:-3000}"]
