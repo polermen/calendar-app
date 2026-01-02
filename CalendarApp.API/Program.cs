@@ -57,15 +57,23 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     if (connectionString.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase) ||
         connectionString.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
     {
-        // Convert Railway's postgres:// to postgresql://
-        if (connectionString.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase))
+        // Parse PostgreSQL URI into Npgsql connection string format
+        // URI format: postgresql://user:password@host:port/database
+        try
         {
-            Console.WriteLine("[DEBUG] Converting postgres:// to postgresql://");
-            connectionString = "postgresql://" + connectionString.Substring("postgres://".Length);
-        }
+            var uri = new Uri(connectionString.Replace("postgres://", "postgresql://"));
+            var npgsqlConnectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};Username={uri.UserInfo.Split(':')[0]};Password={uri.UserInfo.Split(':')[1]}";
 
-        Console.WriteLine("[DEBUG] Using PostgreSQL with Npgsql");
-        options.UseNpgsql(connectionString);
+            Console.WriteLine("[DEBUG] Parsed Npgsql connection string (obscured): " + npgsqlConnectionString.Replace(uri.UserInfo.Split(':')[1], "****"));
+            Console.WriteLine("[DEBUG] Using PostgreSQL with Npgsql");
+
+            options.UseNpgsql(npgsqlConnectionString);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[ERROR] Failed to parse PostgreSQL URI: {ex.Message}");
+            throw;
+        }
     }
     else
     {
