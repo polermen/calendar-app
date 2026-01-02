@@ -18,14 +18,18 @@ RUN npm run build
 FROM node:20-alpine AS runtime
 WORKDIR /app
 
-# Install serve to run the built application
-RUN npm install -g serve
-
 # Copy built files from build stage
 COPY --from=build /app/dist ./dist
+
+# Copy server.js and package files
+COPY server.js .
+COPY package*.json .
+
+# Install only production dependencies (express)
+RUN npm install --production
 
 # Expose port (Railway will assign dynamically)
 EXPOSE 3000
 
-# Serve the application on Railway's dynamic PORT
-CMD sh -c "serve -s dist --listen tcp://0.0.0.0:${PORT:-3000}"
+# Start the Node.js server
+CMD ["node", "server.js"]
