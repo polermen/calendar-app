@@ -22,7 +22,10 @@ builder.Services.AddSwaggerGen();
 // Database Configuration - Supports both SQL Server and PostgreSQL
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    // Try DATABASE_URL first (Railway's default), then fall back to ConnectionStrings:DefaultConnection
+    var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
+        ?? builder.Configuration.GetConnectionString("DefaultConnection");
+
     if (string.IsNullOrEmpty(connectionString))
     {
         throw new InvalidOperationException("Database connection string is not configured");
