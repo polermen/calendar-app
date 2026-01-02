@@ -3,14 +3,13 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Copy project file
-COPY ["CalendarApp.MessageConsumer/CalendarApp.MessageConsumer.csproj", "CalendarApp.MessageConsumer/"]
-RUN dotnet restore "CalendarApp.MessageConsumer/CalendarApp.MessageConsumer.csproj"
+COPY ["CalendarApp.MessageConsumer.csproj", "./"]
+RUN dotnet restore "CalendarApp.MessageConsumer.csproj"
 
 # Copy all source files
 COPY . .
 
 # Build the project
-WORKDIR "/src/CalendarApp.MessageConsumer"
 RUN dotnet build "CalendarApp.MessageConsumer.csproj" -c Release -o /app/build
 
 # Publish stage

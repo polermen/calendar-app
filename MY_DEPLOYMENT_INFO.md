@@ -17,26 +17,21 @@ Email__FromName = Calendar App
 
 ---
 
-## Step 2: CloudAMQP Setup (TODO)
+## ✅ Step 2: CloudAMQP Setup (DONE)
 
-1. Go to: https://www.cloudamqp.com
-2. Sign up with GitHub
-3. Create instance: "CalendarApp", Plan: "Little Lemur (Free)"
-4. Copy AMQP URL and parse it below:
-
-**AMQP URL**: `amqp://___:___@___.cloudamqp.com/___`
+**AMQP URL**: `amqps://sqoaihpc:jsPTiumGAKlcG_uApOniU4P4Aut77PEE@ostrich.lmq.cloudamqp.com/sqoaihpc`
 
 Parse it:
-- **Host**: `________________.cloudamqp.com`
-- **Username**: `________________`
-- **Password**: `________________`
+- **Host**: `ostrich.lmq.cloudamqp.com`
+- **Username**: `sqoaihpc`
+- **Password**: `jsPTiumGAKlcG_uApOniU4P4Aut77PEE`
 
 **Environment Variables for Railway**:
 ```
-RabbitMQ__Host = ________________.cloudamqp.com
+RabbitMQ__Host = ostrich.lmq.cloudamqp.com
 RabbitMQ__Port = 5672
-RabbitMQ__Username = ________________
-RabbitMQ__Password = ________________
+RabbitMQ__Username = sqoaihpc
+RabbitMQ__Password = jsPTiumGAKlcG_uApOniU4P4Aut77PEE
 ```
 
 ---
