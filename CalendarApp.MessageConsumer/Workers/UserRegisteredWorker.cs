@@ -30,6 +30,17 @@ public class UserRegisteredWorker : BackgroundService
     {
         try
         {
+            // Debug: Log all environment variables containing RabbitMQ
+            var allEnvVars = Environment.GetEnvironmentVariables();
+            _logger.LogInformation("[DEBUG] Environment variables containing 'RabbitMQ':");
+            foreach (var key in allEnvVars.Keys)
+            {
+                if (key.ToString().Contains("RabbitMQ", StringComparison.OrdinalIgnoreCase))
+                {
+                    _logger.LogInformation("[DEBUG ENV] {Key} = {Value}", key, allEnvVars[key]);
+                }
+            }
+
             // Try Railway environment variable format first, then fall back to colon notation
             var rabbitMQHost = Environment.GetEnvironmentVariable("RabbitMQ__Host")
                 ?? _configuration["RabbitMQ:Host"] ?? "localhost";
