@@ -30,11 +30,17 @@ public class UserRegisteredWorker : BackgroundService
     {
         try
         {
-            var rabbitMQHost = _configuration["RabbitMQ:Host"] ?? "localhost";
-            var rabbitMQPort = int.Parse(_configuration["RabbitMQ:Port"] ?? "5672");
-            var rabbitMQUsername = _configuration["RabbitMQ:Username"] ?? "guest";
-            var rabbitMQPassword = _configuration["RabbitMQ:Password"] ?? "guest";
-            var rabbitMQVirtualHost = _configuration["RabbitMQ:VirtualHost"] ?? "/";
+            // Try Railway environment variable format first, then fall back to colon notation
+            var rabbitMQHost = Environment.GetEnvironmentVariable("RabbitMQ__Host")
+                ?? _configuration["RabbitMQ:Host"] ?? "localhost";
+            var rabbitMQPort = int.Parse(Environment.GetEnvironmentVariable("RabbitMQ__Port")
+                ?? _configuration["RabbitMQ:Port"] ?? "5672");
+            var rabbitMQUsername = Environment.GetEnvironmentVariable("RabbitMQ__Username")
+                ?? _configuration["RabbitMQ:Username"] ?? "guest";
+            var rabbitMQPassword = Environment.GetEnvironmentVariable("RabbitMQ__Password")
+                ?? _configuration["RabbitMQ:Password"] ?? "guest";
+            var rabbitMQVirtualHost = Environment.GetEnvironmentVariable("RabbitMQ__VirtualHost")
+                ?? _configuration["RabbitMQ:VirtualHost"] ?? "/";
 
             _logger.LogInformation("[DEBUG] RabbitMQ Config - Host: {Host}, Port: {Port}, VirtualHost: {VHost}, Username: {User}",
                 rabbitMQHost, rabbitMQPort, rabbitMQVirtualHost, rabbitMQUsername);
