@@ -41,14 +41,18 @@ public class UserRegisteredWorker : BackgroundService
                 }
             }
 
-            // Try Railway environment variable format first, then fall back to colon notation
+            // Railway adds trailing spaces to variable names, so try both with and without
             var rabbitMQHost = Environment.GetEnvironmentVariable("RabbitMQ__Host")
+                ?? Environment.GetEnvironmentVariable("RabbitMQ__Host ")
                 ?? _configuration["RabbitMQ:Host"] ?? "localhost";
             var rabbitMQPort = int.Parse(Environment.GetEnvironmentVariable("RabbitMQ__Port")
+                ?? Environment.GetEnvironmentVariable("RabbitMQ__Port ")
                 ?? _configuration["RabbitMQ:Port"] ?? "5672");
             var rabbitMQUsername = Environment.GetEnvironmentVariable("RabbitMQ__Username")
+                ?? Environment.GetEnvironmentVariable("RabbitMQ__Username ")
                 ?? _configuration["RabbitMQ:Username"] ?? "guest";
             var rabbitMQPassword = Environment.GetEnvironmentVariable("RabbitMQ__Password")
+                ?? Environment.GetEnvironmentVariable("RabbitMQ__Password ")
                 ?? _configuration["RabbitMQ:Password"] ?? "guest";
             var rabbitMQVirtualHost = Environment.GetEnvironmentVariable("RabbitMQ__VirtualHost")
                 ?? _configuration["RabbitMQ:VirtualHost"] ?? "/";
