@@ -124,18 +124,18 @@ function ShareModal({ isOpen, onClose }) {
             ) : (
               <div className="share-list">
                 {shares.map((share) => (
-                  <div key={share._id} className="share-item">
+                  <div key={share.calendarShareId} className="share-item">
                     <div className="share-item-info">
                       <div className="share-item-email">
-                        {share.spectator?.email || 'Unknown User'}
+                        {share.spectatorEmail || 'Unknown User'}
                       </div>
                       <div className="share-item-username">
-                        @{share.spectator?.username || 'unknown'}
+                        @{share.spectatorUsername || 'unknown'}
                       </div>
                     </div>
                     <button
                       className="share-btn-delete"
-                      onClick={() => handleDelete(share._id)}
+                      onClick={() => handleDelete(share.calendarShareId)}
                       title="Remove access"
                     >
                       Remove
