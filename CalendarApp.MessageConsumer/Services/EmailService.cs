@@ -19,12 +19,28 @@ public class EmailService
         _configuration = configuration;
         _logger = logger;
 
-        _smtpHost = configuration["Email:SmtpHost"] ?? "smtp.gmail.com";
-        _smtpPort = int.Parse(configuration["Email:SmtpPort"] ?? "587");
-        _smtpUsername = configuration["Email:SmtpUsername"] ?? "";
-        _smtpPassword = configuration["Email:SmtpPassword"] ?? "";
-        _fromEmail = configuration["Email:FromEmail"] ?? _smtpUsername;
-        _fromName = configuration["Email:FromName"] ?? "Calendar App";
+        // Railway adds trailing spaces to variable names, so try both with and without
+        _smtpHost = Environment.GetEnvironmentVariable("Email__SmtpHost")
+            ?? Environment.GetEnvironmentVariable("Email__SmtpHost ")
+            ?? configuration["Email:SmtpHost"] ?? "smtp.gmail.com";
+        _smtpPort = int.Parse(Environment.GetEnvironmentVariable("Email__SmtpPort")
+            ?? Environment.GetEnvironmentVariable("Email__SmtpPort ")
+            ?? configuration["Email:SmtpPort"] ?? "587");
+        _smtpUsername = Environment.GetEnvironmentVariable("Email__SmtpUsername")
+            ?? Environment.GetEnvironmentVariable("Email__SmtpUsername ")
+            ?? configuration["Email:SmtpUsername"] ?? "";
+        _smtpPassword = Environment.GetEnvironmentVariable("Email__SmtpPassword")
+            ?? Environment.GetEnvironmentVariable("Email__SmtpPassword ")
+            ?? configuration["Email:SmtpPassword"] ?? "";
+        _fromEmail = Environment.GetEnvironmentVariable("Email__FromEmail")
+            ?? Environment.GetEnvironmentVariable("Email__FromEmail ")
+            ?? configuration["Email:FromEmail"] ?? _smtpUsername;
+        _fromName = Environment.GetEnvironmentVariable("Email__FromName")
+            ?? Environment.GetEnvironmentVariable("Email__FromName ")
+            ?? configuration["Email:FromName"] ?? "Calendar App";
+
+        _logger.LogInformation("[DEBUG] Email Config - Host: {Host}, Port: {Port}, Username: {User}, FromEmail: {FromEmail}",
+            _smtpHost, _smtpPort, _smtpUsername, _fromEmail);
     }
 
     public async Task SendWelcomeEmailAsync(string toEmail, string username)
