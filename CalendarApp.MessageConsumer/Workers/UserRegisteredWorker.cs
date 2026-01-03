@@ -36,6 +36,9 @@ public class UserRegisteredWorker : BackgroundService
             var rabbitMQPassword = _configuration["RabbitMQ:Password"] ?? "guest";
             var rabbitMQVirtualHost = _configuration["RabbitMQ:VirtualHost"] ?? "/";
 
+            _logger.LogInformation("[DEBUG] RabbitMQ Config - Host: {Host}, Port: {Port}, VirtualHost: {VHost}, Username: {User}",
+                rabbitMQHost, rabbitMQPort, rabbitMQVirtualHost, rabbitMQUsername);
+
             var factory = new ConnectionFactory
             {
                 HostName = rabbitMQHost,
